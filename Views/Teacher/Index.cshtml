@@ -1,0 +1,22 @@
+@model List<TeacherModel>
+
+<h1>Teachers</h1>
+
+@foreach (var teacher in Model)
+{
+  <div class='card mb-2'>
+    <div class='card-header'>
+      <h2>@teacher.Name</h2>
+    </div>
+    <div class='card-body'>
+      <ul>
+        <li>Age: @teacher.Age</li>
+        <li>Mail: @teacher.Email</li>
+        <li>Subject: @teacher.Subject</li>
+      </ul>
+    </div>
+    <div class='card-footer d-flex flex-row justify-content-around align-items-center'>
+      <a class="nav-link btn btn-primary w-25 text-white text-center" asp-controller="Teacher" asp-action="Show" asp-route-id="@teacher.Id">Show</a>
+    </div>
+  </div>
+}
