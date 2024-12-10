@@ -20,14 +20,7 @@ public class TeacherController : Controller
 
   public ActionResult Index()
   {
-
     return View(_context.Teachers.ToList());
-  }
-
-  public ActionResult Show(int id)
-  {
-    var teacher = teachers.Find(teacher => teacher.Id == id);
-    return View(teacher);
   }
 
   public ActionResult New()
@@ -50,27 +43,41 @@ public class TeacherController : Controller
     return RedirectToAction("Index");
   }
 
+  public ActionResult Show(int id)
+  {
+    var teacher = _context.Teachers.Find(id);
+    return View(teacher);
+  }
+
   public ActionResult Edit(int id)
   {
-    var teacher = teachers.Find(teacher => teacher.Id == id);
+    var teacher = _context.Teachers.Find(id);
     return View(teacher);
   }
 
   public ActionResult Update(TeacherModel teacher)
   {
-    var teacherToUpdate = teachers.Find(teacher => teacher.Id == teacher.Id);
-    teacherToUpdate.Name = teacher.Name;
-    teacherToUpdate.Age = teacher.Age;
-    teacherToUpdate.JoiningDate = teacher.JoiningDate;
-    teacherToUpdate.Subject = teacher.Subject;
+    if (!ModelState.IsValid)
+    {
+      return View("Edit");
+    }
 
+    var teacherToUpdate = _context.Teachers.Find(teacher.Id);
+
+    // modifier ici
+    teacherToUpdate.Name        = teacher.Name;
+    teacherToUpdate.Age         = teacher.Age;
+    teacherToUpdate.Subject     = teacher.Subject;
+    teacherToUpdate.JoiningDate = teacher.JoiningDate;
+    
+    // Mettre à jour le teacher
+    _context.SaveChanges();
     return RedirectToAction("Index");
   }
 
   public ActionResult Delete(int id)
   {
-    var teacher = teachers.Find(teacher => teacher.Id == id);
-    teachers.Remove(teacher);
+    _context.Teachers.Remove(_context.Teachers.Find(id));
     return RedirectToAction("Index");
   }
 }

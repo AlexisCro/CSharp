@@ -1,5 +1,6 @@
 using AspNetCoreGeneratedDocument;
 using Microsoft.AspNetCore.Mvc;
+using mvc.Data;
 using mvc.Models;
 using System;
 using System.Collections.Generic;
@@ -8,59 +9,67 @@ namespace mvc.Controllers;
 
 public class StudentController : Controller
 {
-    private static List<StudentModel> students = new List<StudentModel>();
+  private readonly ApplicationDbContext _context;
 
-    public ActionResult Index()
-    {
-      return View(students);
-    }
+  public StudentController(ApplicationDbContext context)
+  {
+    _context = context;
+  }
 
-    public ActionResult New()
+  public ActionResult Index()
+  {
+    return View(_context.Students.ToList());
+  }
+
+  public ActionResult New()
     {
       return View();
     }
 
     public ActionResult Create(StudentModel student)
     { 
-      if (students.Count == 0)
+      if (!ModelState.IsValid)
       {
-        student.Id = 1;
-      }
-      else
-      {
-        student.Id = students.Max(student => student.Id) + 1;
+        return View("New");
       }
 
-      student.Email = $"{student.Name.Replace(" ", ".").ToLower()}@gmail.com";
-      students.Add(student);
+      _context.SaveChanges();
       return RedirectToAction("Index");
     }
 
     public ActionResult Show(int id)
     {
-      var student = students.Find(student => student.Id == id);
+      var student = _context.Students.Find(id);
       return View(student);
     }
 
     public ActionResult Edit(int id)
     {
-      var student = students.Find(student => student.Id == id);
+      var student = _context.Students.Find(id);
       return View(student);
     }
 
     public ActionResult Update(StudentModel student)
     {
-      var studentToUpdate = students.Find(student => student.Id == student.Id);
-      studentToUpdate.Name = student.Name;
-      studentToUpdate.Age = student.Age;
-      studentToUpdate.AdmissionDate = student.AdmissionDate;
+      if (!ModelState.IsValid)
+      {
+        return View("Edit");
+      }
+
+      var StudentToUpdate = _context.Students.Find(student.Id);
+
+      StudentToUpdate.Name          = student.Name;
+      StudentToUpdate.Age           = student.Age;
+      StudentToUpdate.Major         = student.Major;
+      StudentToUpdate.AdmissionDate = student.AdmissionDate;
+
+      _context.SaveChanges();
       return RedirectToAction("Index");
     }
 
     public ActionResult Delete(int id)
     {
-      var student = students.Find(student => student.Id == id);
-      students.Remove(student);
+      _context.Students.Remove(_context.Students.Find(id));
       return RedirectToAction("Index");
     }
 }
