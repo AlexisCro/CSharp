@@ -13,7 +13,7 @@
   </div>
   <div class='w-50 mb-2'>
     @* Use A helper to Create A dynamic list *@
-    <select asp-for="Subject" asp-items="Html.GetEnumSelectList<Subjects>()"></select>
+    <select asp-for="Subject" asp-items="Html.GetEnumSelectList<Subject>()"></select>
     <span asp-validation-for="Subject" class="text-danger"></span>
   </div>
 

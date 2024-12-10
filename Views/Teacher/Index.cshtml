@@ -5,22 +5,41 @@
   <a class="mb-3 nav-link btn btn-success w-25 text-white text-center" asp-controller="Teacher" asp-action="New">New</a>
 </div>
 
-@foreach (var teacher in Model)
-{
-  <div class='card mb-2'>
-    <div class='card-header'>
-      <h2>@teacher.Name</h2>
-    </div>
-    <div class='card-body'>
-      <ul>
-        <li>Age: @teacher.Age</li>
-        <li>Subject: @teacher.Subject</li>
-      </ul>
-    </div>
-    <div class='card-footer d-flex flex-row justify-content-around align-items-center'>
-      <a class="nav-link btn btn-primary w-25 text-white text-center" asp-controller="Teacher" asp-action="Show" asp-route-id="@teacher.Id">Show</a>
-      <a class="nav-link btn btn-danger w-25 text-white text-center" asp-controller="Teacher" asp-action="Delete" asp-route-id="@teacher.Id">Delete</a>
-      <a class="nav-link btn btn-primary w-25 text-white text-center" asp-controller="Teacher" asp-action="Edit" asp-route-id="@teacher.Id">Edit</a>
-    </div>
-  </div>
-}
+<table class="table table-stripped">
+  <thead>
+    <tr>
+      <th class="text-center">Name</th>
+      <th class="text-center">Email</th>
+      <th class="text-center">Age</th>
+      <th class="text-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var teacher in Model)
+    {
+      <tr>
+        <th scope="row" class="text-center">@teacher.Name</th>
+        <td class="text-center">@teacher.Email</td>
+        <td class="text-center">@teacher.Age</td>
+        <td>
+          <div class='dropdown'>
+            <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown">Actions</button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" asp-controller="Teacher" asp-action="Show" asp-route-id="@teacher.Id">Show</a></li>
+              <li><a class="dropdown-item" asp-controller="Teacher" asp-action="Edit" asp-route-id="@teacher.Id">Edit</a></li>
+              <li><a class="dropdown-item" onclick="confirmDelete(event)" asp-controller="Teacher" asp-action="Delete" asp-route-id="@teacher.Id">Delete</a></li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<script>
+  function confirmDelete() {
+    if(!confirm('Are you sure to want to delete this Teacher ?')) {
+      event.preventDefault();
+    }
+  }
+</script>

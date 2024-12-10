@@ -16,8 +16,6 @@ public class TeacherController : Controller
       _context = context;
   }
 
-  private static List<TeacherModel> teachers = new List<TeacherModel>();
-
   public ActionResult Index()
   {
     return View(_context.Teachers.ToList());
@@ -35,6 +33,7 @@ public class TeacherController : Controller
       return View("New");
     }
 
+    teacher.Email = teacher.Name.Replace(' ', '.').ToLower() + "@school.com";
     // Ajouter le teacher
     _context.Teachers.Add(teacher);
 
@@ -78,6 +77,7 @@ public class TeacherController : Controller
   public ActionResult Delete(int id)
   {
     _context.Teachers.Remove(_context.Teachers.Find(id));
+    _context.SaveChanges();
     return RedirectToAction("Index");
   }
 }

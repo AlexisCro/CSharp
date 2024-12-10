@@ -70,6 +70,7 @@ public class StudentController : Controller
     public ActionResult Delete(int id)
     {
       _context.Students.Remove(_context.Students.Find(id));
+      _context.SaveChanges();
       return RedirectToAction("Index");
     }
 }

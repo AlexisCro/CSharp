@@ -17,7 +17,7 @@
   </div>
   <div class='w-50 mb-2'>
     @* Use a helper to Create a dynamic list and pre-select *@
-    <select asp-for="Subject" asp-items="Html.GetEnumSelectList<Subjects>()"></select>
+    <select asp-for="Subject" asp-items="Html.GetEnumSelectList<Subject>()"></select>
   </div>
 
   <input type="submit" value="Update" class="btn btn-primary">
