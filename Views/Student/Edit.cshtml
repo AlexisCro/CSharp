@@ -2,15 +2,15 @@
 
 <h1>Edit @Model.Name</h1>
 
-<form asp-action="Create">
+<form asp-action="Update">
   <div class="w-50 mb-2">
-      <input type="string" name="Name" placeholder=@Model.Name>
+      <input type="string" name="Name" placeholder=@Model.Name value=@Model.Name>
   </div>
   <div class='w-50 mb-2'>
-      <input type="number" name="Age" placeholder=@Model.Age>
+      <input type="number" name="Age" placeholder=@Model.Age value=@Model.Age>
   </div>
   <div class='w-50 mb-2'>
-      <input type="date" name="AdmissionDate" placeholder=@Model.AdmissionDate>
+      <input type="date" name="AdmissionDate" placeholder=@Model.AdmissionDate value=@Model.AdmissionDate>
   </div>
 
   <input type="submit" value="Update" class="btn btn-primary">
