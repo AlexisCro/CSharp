@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using mvc.Data;
 using mvc.Models;
 using System;
 using System.Collections.Generic;
@@ -7,11 +8,20 @@ namespace mvc.Controllers;
 
 public class TeacherController : Controller
 {
+  private readonly ApplicationDbContext _context;
+
+  // Constructeur
+  public TeacherController(ApplicationDbContext context)
+  {
+      _context = context;
+  }
+
   private static List<TeacherModel> teachers = new List<TeacherModel>();
 
   public ActionResult Index()
   {
-    return View(teachers);
+
+    return View(_context.Teachers.ToList());
   }
 
   public ActionResult Show(int id)
@@ -32,17 +42,11 @@ public class TeacherController : Controller
       return View("New");
     }
 
-    if (teachers.Count == 0)
-    {
-      teacher.Id = 1;
-    }
-    else
-    {
-      teacher.Id = teachers.Max(teacher => teacher.Id) + 1;
-    }
+    // Ajouter le teacher
+    _context.Teachers.Add(teacher);
 
-    teacher.Subject = teacher.Subject;
-    teachers.Add(teacher);
+    // Sauvegarder les changements
+    _context.SaveChanges();
     return RedirectToAction("Index");
   }
 
