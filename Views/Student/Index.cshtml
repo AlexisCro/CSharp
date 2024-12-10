@@ -1,7 +1,9 @@
 @model List<StudentModel>
 
 <h1>Students</h1>
-
+<div>
+  <a class="nav-link btn btn-success w-25 text-white text-center" asp-controller="Student" asp-action="New">New</a>
+</div>
 @foreach (var student in Model)
 {
   <div class='card mb-2'>
@@ -17,6 +19,7 @@
     <div class='card-footer d-flex flex-row justify-content-around align-items-center'>
       <a class="nav-link btn btn-primary w-25 text-white text-center" asp-controller="Student" asp-action="Show" asp-route-id="@student.Id">Show</a>
       <a class="nav-link btn btn-danger w-25 text-white text-center" asp-controller="Student" asp-action="Delete" asp-route-id="@student.Id">Delete</a>
+      <a class="nav-link btn btn-primary w-25 text-white text-center" asp-controller="Student" asp-action="Edit" asp-route-id="@student.Id">Edit</a>
     </div>
   </div>
 }

@@ -1,3 +1,4 @@
+using AspNetCoreGeneratedDocument;
 using Microsoft.AspNetCore.Mvc;
 using mvc.Models;
 using System;
@@ -11,27 +12,49 @@ public class StudentController : Controller
 
     public ActionResult Index()
     {
-      int counter = 0;
-      string[] names = ["John Doe", "Jane Doe", "Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Heidi"];
-      
-      while (counter < 10)
+      return View(students);
+    }
+
+    public ActionResult New()
+    {
+      return View();
+    }
+
+    public ActionResult Create(StudentModel student)
+    { 
+      if (students.Count == 0)
       {
-        var student = new StudentModel();
-        student.Id = counter;
-        student.Name = names[counter];
-        student.Age = new Random().Next(18, 25);
-        student.Email = $"{student.Name.Replace(" ", ".").ToLower()}@gmail.com";
-        students.Add(student);
-        counter++;
+        student.Id = 1;
+      }
+      else
+      {
+        student.Id = students.Max(student => student.Id) + 1;
       }
 
-      return View(students);
+      student.Email = $"{student.Name.Replace(" ", ".").ToLower()}@gmail.com";
+      students.Add(student);
+      return RedirectToAction("Index");
     }
 
     public ActionResult Show(int id)
     {
       var student = students.Find(student => student.Id == id);
       return View(student);
+    }
+
+    public ActionResult Edit(int id)
+    {
+      var student = students.Find(student => student.Id == id);
+      return View(student);
+    }
+
+    public ActionResult Update(StudentModel student)
+    {
+      var studentToUpdate = students.Find(student => student.Id == student.Id);
+      studentToUpdate.Name = student.Name;
+      studentToUpdate.Age = student.Age;
+      studentToUpdate.AdmissionDate = student.AdmissionDate;
+      return RedirectToAction("Index");
     }
 
     public ActionResult Delete(int id)

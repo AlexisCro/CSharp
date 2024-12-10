@@ -1,0 +1,17 @@
+@model StudentModel
+
+<h1>Edit @Model.Name</h1>
+
+<form asp-action="Create">
+  <div class="w-50 mb-2">
+      <input type="string" name="Name" placeholder=@Model.Name>
+  </div>
+  <div class='w-50 mb-2'>
+      <input type="number" name="Age" placeholder=@Model.Age>
+  </div>
+  <div class='w-50 mb-2'>
+      <input type="date" name="AdmissionDate" placeholder=@Model.AdmissionDate>
+  </div>
+
+  <input type="submit" value="Update" class="btn btn-primary">
+</form>
