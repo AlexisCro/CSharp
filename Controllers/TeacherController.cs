@@ -11,21 +11,6 @@ public class TeacherController : Controller
 
   public ActionResult Index()
   {
-    int counter = 0;
-    string[] names = ["Albert Einstein", "Isaac Newton", "Galileo Galilei", "Marie Curie", "Nikola Tesla", "Thomas Edison", "Leonardo da Vinci", "Stephen Hawking", "Ada Lovelace", "Alan Turing"];
-
-    while (counter < 10)
-    {
-      var teacher = new TeacherModel();
-      teacher.Id = counter;
-      teacher.Name = names[counter];
-      teacher.Age = new Random().Next(40, 65);
-      teacher.Email = $"{teacher.Name.Replace(" ", ".").ToLower()}@gmail.com";
-      teacher.Subject = Enum.GetName(typeof(Subject), new Random().Next(0, 5));
-      teachers.Add(teacher);
-      counter++;
-    }
-
     return View(teachers);
   }
 
@@ -33,5 +18,55 @@ public class TeacherController : Controller
   {
     var teacher = teachers.Find(teacher => teacher.Id == id);
     return View(teacher);
+  }
+
+  public ActionResult New()
+  {
+    return View();
+  }
+
+  public ActionResult Create(TeacherModel teacher)
+  {
+    if (!ModelState.IsValid)
+    {
+      return View("New");
+    }
+
+    if (teachers.Count == 0)
+    {
+      teacher.Id = 1;
+    }
+    else
+    {
+      teacher.Id = teachers.Max(teacher => teacher.Id) + 1;
+    }
+
+    teacher.Subject = teacher.Subject;
+    teachers.Add(teacher);
+    return RedirectToAction("Index");
+  }
+
+  public ActionResult Edit(int id)
+  {
+    var teacher = teachers.Find(teacher => teacher.Id == id);
+    return View(teacher);
+  }
+
+  public ActionResult Update(TeacherModel teacher)
+  {
+    var teacherToUpdate = teachers.Find(teacher => teacher.Id == teacher.Id);
+    teacherToUpdate.Name = teacher.Name;
+    teacherToUpdate.Age = teacher.Age;
+    teacherToUpdate.JoiningDate = teacher.JoiningDate;
+    teacherToUpdate.Subject = teacher.Subject;
+
+    return RedirectToAction("Index");
+  }
+
+  public ActionResult Delete(int id)
+  {
+    var teacher = teachers.Find(teacher => teacher.Id == id);
+    teachers.Remove(teacher);
+    return RedirectToAction("Index");
   }
 }

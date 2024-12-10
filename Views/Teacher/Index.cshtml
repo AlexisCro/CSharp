@@ -1,6 +1,9 @@
 @model List<TeacherModel>
 
-<h1>Teachers</h1>
+<h1 class="mb-2">Teachers</h1>
+<div>
+  <a class="mb-3 nav-link btn btn-success w-25 text-white text-center" asp-controller="Teacher" asp-action="New">New</a>
+</div>
 
 @foreach (var teacher in Model)
 {
@@ -11,12 +14,13 @@
     <div class='card-body'>
       <ul>
         <li>Age: @teacher.Age</li>
-        <li>Mail: @teacher.Email</li>
         <li>Subject: @teacher.Subject</li>
       </ul>
     </div>
     <div class='card-footer d-flex flex-row justify-content-around align-items-center'>
       <a class="nav-link btn btn-primary w-25 text-white text-center" asp-controller="Teacher" asp-action="Show" asp-route-id="@teacher.Id">Show</a>
+      <a class="nav-link btn btn-danger w-25 text-white text-center" asp-controller="Teacher" asp-action="Delete" asp-route-id="@teacher.Id">Delete</a>
+      <a class="nav-link btn btn-primary w-25 text-white text-center" asp-controller="Teacher" asp-action="Edit" asp-route-id="@teacher.Id">Edit</a>
     </div>
   </div>
 }

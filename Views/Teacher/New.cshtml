@@ -1,0 +1,21 @@
+@model TeacherModel
+
+<h1>A new teacher</h1>
+
+<form asp-action="Create" asp-controller="Teacher" method="post">
+  <div class="w-50 mb-2">
+      <input id="name" type="string" name="Name" placeholder="Name">
+      <span asp-validation-for="Name" class="text-danger"></span>
+  </div>
+  <div class='w-50 mb-2'>
+      <input type="number" name="Age" placeholder="Age">
+      <span asp-validation-for="Age" class="text-danger"></span>
+  </div>
+  <div class='w-50 mb-2'>
+    @* Use A helper to Create A dynamic list *@
+    <select asp-for="Subject" asp-items="Html.GetEnumSelectList<Subjects>()"></select>
+    <span asp-validation-for="Subject" class="text-danger"></span>
+  </div>
+
+  <input type="submit" value="Create" class="btn btn-primary">
+</form>
