@@ -3,17 +3,18 @@ using System.Reflection;
 
 namespace mvc.Models;
 
-public enum Subject
-{
-  CS,
-  IT,
-  MATHS,
-  FRENCH,
-  ENGLISH
-}
-
 public class TeacherModel
 {
+  public static readonly string[] AvailableSubjects = new string[] 
+  { 
+    "IT",
+    "Math",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Computer Science" 
+  };
+
   public int Id { get; set; }
   
   [Required]
